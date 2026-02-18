@@ -5,16 +5,261 @@
 }
 
 body {
+    font-family: 'Montserrat', sans-serif;
     background-color: #0B0B0D;
-    color: #FFFFFF;
-    font-family: Arial, sans-serif;
+    color: #ffffff;
 }
 
-header {
-    padding: 20px 40px;
-    border-bottom: 1px solid #222;
+
+/* =========================
+   NAVBAR
+========================= */
+
+.logo img {
+    height: 32px;
 }
 
-section {
-    padding: 100px 40px;
+.navbar {
+    position: fixed;
+    width: 100%;
+    padding: 25px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    transition: background 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(255, 0, 0, 0.8);
+}
+
+.navbar nav a {
+    margin-left: 30px;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: 0.3s ease;
+}
+
+.navbar nav a:hover {
+    opacity: 1;
+    color: #E10600;
+}
+
+
+/* =========================
+   HERO SLIDER
+========================= */
+
+.hero-slider {
+
+    min-height: 100vh;
+
+    padding-top: 140px;
+    padding-bottom: 140px;
+
+    overflow: visible;
+
+    background:
+      radial-gradient(circle at center,
+      #0f0f14 0%,
+      #050508 70%);
+}
+
+
+.hero-header {
+
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.hero-header h1 {
+
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+}
+
+.hero-header p {
+
+    opacity: 0.7;
+}
+
+
+/* =========================
+   SLIDER WRAPPER
+========================= */
+
+.slider-wrapper {
+
+    display: flex;
+
+    gap: 80px;
+
+    overflow-x: auto;
+    overflow-y: visible;
+
+    scroll-snap-type: x mandatory;
+
+    padding: 120px 220px;
+
+    align-items: center;
+}
+
+.slider-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* =========================
+   SLIDE CARD
+   (transform은 JS만 담당)
+========================= */
+
+.slide {
+
+    position: relative;
+
+    flex: 0 0 320px;
+    height: 420px;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    scroll-snap-align: center;
+
+    text-decoration: none;
+
+    opacity: 0.4;
+
+    will-change: transform, opacity;
+
+    transition:
+      transform 0.22s ease-out,
+      opacity 0.22s ease-out,
+      box-shadow 0.3s ease;
+}
+
+.slide img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+}
+
+
+.slide-overlay {
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    padding: 20px;
+
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.85),
+        rgba(0,0,0,0.2),
+        transparent
+    );
+
+    color: #ffffff;   /* ← 항상 순수 흰색 */
+
+    font-weight: 700;
+
+    font-size: 1rem;
+
+    letter-spacing: 1px;
+
+    border-left: 3px solid #E10600;
+
+    opacity: 1;       /* ← 부모 영향 제거 */
+
+    z-index: 20;      /* ← 카드 위에 항상 표시 */
+
+}
+
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.slider-btn {
+
+    position: absolute;
+
+    top: 55%;
+
+    transform: translateY(-50%);
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    border: none;
+
+    background: rgba(0,0,0,0.6);
+
+    color: white;
+
+    font-size: 28px;
+
+    cursor: pointer;
+
+    z-index: 50;
+}
+
+.slider-btn:hover {
+    background: rgba(225,6,0,0.9);
+}
+
+.prev { left: 20px; }
+.next { right: 20px; }
+
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .hero-header h1 {
+        font-size: 1.6rem;
+        padding: 0 20px;
+    }
+
+    .hero-header p {
+        font-size: 0.9rem;
+    }
+
+    .slider-wrapper {
+
+        padding: 0 60px;
+
+        gap: 16px;
+    }
+
+    .slide {
+
+        flex: 0 0 65%;
+        height: 300px;
+    }
+
+    .slider-btn {
+
+        width: 40px;
+        height: 40px;
+
+        font-size: 22px;
+
+        top: 60%;
+    }
 }
