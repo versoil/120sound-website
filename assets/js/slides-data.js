@@ -1,44 +1,38 @@
 const slides = [
+
   {
-    id: "about",
-    type: "image",
-    src: "https://images.unsplash.com/photo-1506157786151-b8491531f063",
-    alt: "Concert Engineering",
+    id: "About",
+    src: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1600&auto=format&fit=crop",
+    alt: "Sound Engineer",
     link: "about.html"
   },
+
   {
-    id: "services",
-    type: "image",
-    src: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4",
-    alt: "Services",
+    id: "Services",
+    src: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1600&auto=format&fit=crop",
+    alt: "Mixing Console",
     link: "services.html"
   },
+
   {
-    id: "portfolio",
-    type: "image",
-    src: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc",
-    alt: "Portfolio",
+    id: "Portfolio",
+    src: "https://images.unsplash.com/photo-1506157786151-b8491531f063?q=80&w=1600&auto=format&fit=crop",
+    alt: "Live Concert",
     link: "portfolio.html"
   },
+
   {
-    id: "equipment",
-    type: "image",
-    src: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
-    alt: "Equipment",
+    id: "Equipment",
+    src: "https://images.unsplash.com/photo-1516117172878-fd2c41f4a759?q=80&w=1600&auto=format&fit=crop",
+    alt: "Audio Equipment",
     link: "equipment.html"
   },
+
   {
-    id: "tour",
-    type: "image",
-    src: "https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2",
-    alt: "Arena Tour",
-    link: "portfolio.html"
-  },
-  {
-    id: "festival",
-    type: "image",
-    src: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30",
-    alt: "Festival",
-    link: "portfolio.html"
+    id: "Contact",
+    src: "https://images.unsplash.com/photo-1501612780327-45045538702b?q=80&w=1600&auto=format&fit=crop",
+    alt: "Stage Lighting",
+    link: "contact.html"
   }
+
 ];

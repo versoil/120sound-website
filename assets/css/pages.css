@@ -1,0 +1,85 @@
+/* PAGE HERO */
+
+.page-hero {
+
+height: 60vh;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+background:
+linear-gradient(rgba(0,0,0,0.6),
+rgba(0,0,0,0.8)),
+
+url('../images/about.jpg');
+
+background-size: cover;
+background-position: center;
+
+text-align: center;
+}
+
+.page-hero-content h1 {
+
+font-size: 3rem;
+margin-bottom: 20px;
+
+}
+
+.page-hero-content p {
+
+opacity: 0.8;
+
+}
+
+
+/* PAGE SECTION */
+
+.page-section {
+
+padding: 100px 40px;
+
+}
+
+.page-section.dark {
+
+background: #111;
+
+}
+
+.page-container {
+
+max-width: 1000px;
+margin: auto;
+
+}
+
+.page-container h2 {
+
+font-size: 2rem;
+margin-bottom: 20px;
+
+}
+
+.page-container p {
+
+opacity: 0.8;
+line-height: 1.6;
+
+}
+
+
+/* FOOTER */
+
+.footer {
+
+padding: 40px;
+
+background: #050508;
+
+text-align: center;
+
+opacity: 0.6;
+
+}

@@ -1,195 +1,281 @@
-console.log("VISION PRO CAROUSEL FINAL");
+console.log("INFINITE CAROUSEL ENABLED");
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  const wrapper = document.getElementById('slider-wrapper');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
+const wrapper = document.getElementById('slider-wrapper');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
 
+let slideElements = [];
+let slideWidth = 0;
+let isScrolling = false;
 
-  // =========================
-  // CREATE SLIDES
-  // =========================
 
-  slides.forEach(s => {
+// =========================
+// CREATE SLIDES (INFINITE)
+// =========================
 
-    const slide = document.createElement('a');
-    slide.className = 'slide';
-    slide.href = s.link || '#';
+// 원본 3번 복제
+const infiniteSlides = [
+...slides,
+...slides,
+...slides
+];
 
-    const img = document.createElement('img');
-    img.src = s.src;
+infiniteSlides.forEach((s, index) => {
 
-    const overlay = document.createElement('div');
-    overlay.className = 'slide-overlay';
-    overlay.textContent = s.id.toUpperCase();
+const slide = document.createElement('a');
 
-    slide.appendChild(img);
-    slide.appendChild(overlay);
+slide.className = 'slide';
 
-    slide.addEventListener('click', (e) => {
+slide.href = s.link;
 
-      e.preventDefault();
+slide.dataset.index = index;
 
-      centerSlide(slide);
+const img = document.createElement('img');
+img.src = s.src;
 
-    });
+const overlay = document.createElement('div');
+overlay.className = 'slide-overlay';
+overlay.textContent = s.id.toUpperCase();
 
-    wrapper.appendChild(slide);
+slide.appendChild(img);
+slide.appendChild(overlay);
 
-  });
 
+// 클릭
+slide.addEventListener('click', (e) => {
 
-  const slideElements =
-    document.querySelectorAll('.slide');
+const isActive = slide.classList.contains('active');
 
+if (!isActive) {
 
-  // =========================
-  // CENTER FUNCTION
-  // =========================
+e.preventDefault();
 
-  function centerSlide(slide) {
+centerSlide(slide);
 
-    wrapper.scrollTo({
+} else {
 
-      left:
-        slide.offsetLeft
-        - wrapper.offsetWidth / 2
-        + slide.offsetWidth / 2,
+// 중앙이면 페이지 이동
+window.location.href = slide.href;
 
-      behavior: 'smooth'
-    });
-  }
+}
 
+});
 
-  // =========================
-  // VISION PRO EFFECT
-  // =========================
+wrapper.appendChild(slide);
 
-  function updateCarousel() {
+});
 
-    const center =
-      wrapper.scrollLeft + wrapper.offsetWidth / 2;
 
-    const isMobile =
-      window.innerWidth <= 768;
+slideElements = document.querySelectorAll('.slide');
 
-    slideElements.forEach(slide => {
 
-      const slideCenter =
-        slide.offsetLeft + slide.offsetWidth / 2;
+// =========================
+// INITIAL POSITION (CENTER)
+// =========================
 
-      const distance =
-        Math.abs(center - slideCenter);
+function initPosition() {
 
-      const maxDistance =
-        wrapper.offsetWidth / 2;
+slideWidth = slideElements[0].offsetWidth + 80;
 
-      const normalized =
-        Math.min(distance / maxDistance, 1);
+const startIndex = slides.length;
 
+wrapper.scrollLeft = slideWidth * startIndex;
 
-      // SAFE SCALE
-      const scale =
-        isMobile
-        ? 1.06 - normalized * 0.35
-        : 1.18 - normalized * 0.55;
+}
 
+setTimeout(initPosition, 100);
 
-      // SAFE Y OFFSET
-      const y =
-        isMobile
-        ? normalized * 12
-        : normalized * 28;
 
+// =========================
+// CENTER SLIDE
+// =========================
 
-      // OPACITY
-      const opacity =
-        1 - normalized * 0.6;
+function centerSlide(slide) {
 
+wrapper.scrollTo({
 
-      slide.style.transform =
-        `translateY(${y}px) scale(${scale})`;
+left:
+slide.offsetLeft
+- wrapper.offsetWidth / 2
++ slide.offsetWidth / 2,
 
-      slide.style.opacity =
-  0.7 + (1 - normalized) * 0.3;
+behavior: 'smooth'
 
+});
 
-    });
-  }
+}
 
 
-  // =========================
-  // SCROLL
-  // =========================
+// =========================
+// INFINITE RESET
+// =========================
 
-  wrapper.addEventListener(
-    'scroll',
-    () => requestAnimationFrame(updateCarousel)
-  );
+function infiniteScrollFix() {
 
+const maxScroll =
+wrapper.scrollWidth - wrapper.offsetWidth;
 
-  // =========================
-  // BUTTON CONTROL
-  // =========================
+if (wrapper.scrollLeft <= slideWidth) {
 
-  function scrollNext() {
+wrapper.scrollLeft += slideWidth * slides.length;
 
-    wrapper.scrollBy({
-      left: wrapper.offsetWidth * 0.6,
-      behavior: 'smooth'
-    });
-  }
+}
 
-  function scrollPrev() {
+if (wrapper.scrollLeft >= maxScroll - slideWidth) {
 
-    wrapper.scrollBy({
-      left: -wrapper.offsetWidth * 0.6,
-      behavior: 'smooth'
-    });
-  }
+wrapper.scrollLeft -= slideWidth * slides.length;
 
-  prevBtn?.addEventListener('click', scrollPrev);
-  nextBtn?.addEventListener('click', scrollNext);
+}
 
+}
 
-  // =========================
-  // MOUSE WHEEL
-  // =========================
 
-  wrapper.addEventListener('wheel', (e) => {
+// =========================
+// UPDATE ACTIVE + EFFECT
+// =========================
 
-    e.preventDefault();
+function updateCarousel() {
 
-    wrapper.scrollBy({
-      left: e.deltaY,
-      behavior: 'auto'
-    });
+const center =
+wrapper.scrollLeft + wrapper.offsetWidth / 2;
 
-  }, { passive:false });
+let closestSlide = null;
+let closestDistance = Infinity;
 
+slideElements.forEach(slide => {
 
-  // =========================
-  // INIT
-  // =========================
+const slideCenter =
+slide.offsetLeft + slide.offsetWidth / 2;
 
-  updateCarousel();
+const distance =
+Math.abs(center - slideCenter);
 
+if (distance < closestDistance) {
 
-  // =========================
-  // NAVBAR EFFECT
-  // =========================
+closestDistance = distance;
+closestSlide = slide;
 
-  window.addEventListener('scroll', () => {
+}
 
-    const navbar =
-      document.querySelector('.navbar');
+const normalized =
+Math.min(distance / (wrapper.offsetWidth / 2), 1);
 
-    if (window.scrollY > 50)
-      navbar.classList.add('scrolled');
-    else
-      navbar.classList.remove('scrolled');
+const scale =
+1.18 - normalized * 0.55;
 
-  });
+const y =
+normalized * 28;
+
+const opacity =
+0.5 + (1 - normalized) * 0.5;
+
+slide.style.transform =
+`translateY(${y}px) scale(${scale})`;
+
+slide.style.opacity =
+opacity;
+
+slide.classList.remove('active');
+
+});
+
+if (closestSlide)
+closestSlide.classList.add('active');
+
+}
+
+
+// =========================
+// SCROLL EVENT
+// =========================
+
+wrapper.addEventListener('scroll', () => {
+
+if (!isScrolling) {
+
+requestAnimationFrame(() => {
+
+updateCarousel();
+infiniteScrollFix();
+
+});
+
+}
+
+});
+
+
+// =========================
+// BUTTONS
+// =========================
+
+function scrollNext() {
+
+wrapper.scrollBy({
+
+left: slideWidth,
+behavior: 'smooth'
+
+});
+
+}
+
+function scrollPrev() {
+
+wrapper.scrollBy({
+
+left: -slideWidth,
+behavior: 'smooth'
+
+});
+
+}
+
+prevBtn.addEventListener('click', scrollPrev);
+nextBtn.addEventListener('click', scrollNext);
+
+
+// =========================
+// WHEEL
+// =========================
+
+wrapper.addEventListener('wheel', (e) => {
+
+e.preventDefault();
+
+wrapper.scrollBy({
+
+left: e.deltaY,
+behavior: 'auto'
+
+});
+
+}, { passive:false });
+
+
+// =========================
+// INIT
+// =========================
+
+setTimeout(updateCarousel, 200);
+
+
+// =========================
+// NAVBAR EFFECT
+// =========================
+
+window.addEventListener('scroll', () => {
+
+const navbar =
+document.querySelector('.navbar');
+
+if (window.scrollY > 50)
+navbar.classList.add('scrolled');
+else
+navbar.classList.remove('scrolled');
+
+});
 
 });

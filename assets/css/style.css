@@ -263,3 +263,7 @@ body {
         top: 60%;
     }
 }
+
+html {
+  scroll-behavior: smooth;
+}
